@@ -3,8 +3,7 @@ import './App.css';
 import { Home } from './Components/Home';
 import { Navbar } from './Components/Navbar';
 import {Login} from './Components/Login';
-import { ShowData } from './Components/ShowData';
-import { User } from './Components/User';
+
 import {Route,Routes} from 'react-router-dom'
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <Route path="/" element={<Login/>}></Route>
         <Route path="/home"element={<Home/>}></Route>
       </Routes>
-      {/* <User /> */}
     </div>
   );
 }
