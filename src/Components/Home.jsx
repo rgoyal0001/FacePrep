@@ -1,19 +1,17 @@
 import React from "react";
 import InfinitScroll from "react-infinite-scroll-component";
 import "./users.css";
-import axios from "axios";
-import { Component } from "react";
+// import axios from "axios";
+// import { Component } from "react";
 import { AuthContext } from "../Context/AuthContext";
-
+import header from '../header.png'
+import footer from '../footer.png'
 export const Home = () => {
   const [users, setUsers] = React.useState([]);
-  const { isAuth, handleAuth } = React.useContext(AuthContext);
-  // const [start,setStart]=React.useState(1)
+  const { isAuth } = React.useContext(AuthContext);
   const count = 25;
   let start = 1;
-  // React.useEffect(()=>{
-  //   fetchRandomUsers(setUsers,users)
-  // },[])
+
   const fetchRandomUsers = (users, setUsers) => {
     let resolve = fetch(
       `https://randomuser.me/api/?results=${count}&start=${start}`
@@ -22,14 +20,12 @@ export const Home = () => {
       result.json().then((res) => {
         setUsers([...users, ...res.results]);
         start = start + count;
-        console.log("res in my", users, start);
+        // console.log("res in my", users, start);
       });
     });
   };
   const fetchNextUsers = () => {
-    start=start+count
-    // console.log(start + count);
-    // console.log(users);
+    // start=start+count
 
     let resolve = fetch(
       `https://randomuser.me/api/?results=${count}&start=${start}`
@@ -39,29 +35,31 @@ export const Home = () => {
         setTimeout(() => {
           setUsers(users.concat(res.results));
         }, 1000);
-        console.log("fetch", users);
+        // console.log("fetch", users);
       });
     });
   };
 
   React.useEffect(() => {
     fetchRandomUsers(users, setUsers);
+    fetchNextUsers()
   }, []);
 
   return (
     <>
-      {isAuth ? (
+      {isAuth ? (    
+        <>
         <div id="users">
+        <img style={{height:'75px',width:'320px',position:'fixed',left:'608px'}} src={header} alt="" />
           <InfinitScroll
             dataLength={users.length}
-            next={fetchNextUsers}
+            next={()=>{fetchNextUsers()}}
             hasMore={true}
             loader={<h5>loading...</h5>}
           >
             <ul>
               {users?.map((item) => {
                 const url = item.picture.thumbnail;
-                // console.log(url)
                 return (
                   <li key={item.phone} id="user">
                     <p>
@@ -73,7 +71,12 @@ export const Home = () => {
               })}
             </ul>
           </InfinitScroll>
+          <img style={{height:'75px',width:'320px',position:'fixed',left:'608px'}} src={footer} alt="" />
+
         </div>
+        <img style={{height:'35px',width:'322px',position:'fixed',left:'607px'}} src={footer} alt="" />
+        </>
+
       ) : (
         <div>Please login with username as 'foo' and password as 'bas' </div>
       )}

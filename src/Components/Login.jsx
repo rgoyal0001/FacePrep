@@ -6,7 +6,6 @@ export const Login = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const { handleAuth } = React.useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const handleSubmit = () => {
